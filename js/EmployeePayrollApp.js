@@ -53,10 +53,12 @@ const setTextValue = (id, value) => {
 /* UC3:- Ability to create Employee Payroll Object On Save. 
          - Validation of Name and Date and if failed then set the UI accordingly. */
 const save = () => {
-    try {
+    try 
+    {
         let EmployeePayRoll = createEmployeePayroll();
     }
-    catch (e) {
+    catch (e) 
+    {
         alert(e);
     }
 }
@@ -95,5 +97,24 @@ const getSelectedValues = (propertyValue) => {
 const getInputValueById = (id) => {
     let value = document.querySelector(id).value;
     return value;
+}
+
+
+/* UC4:- Ability to save the Employee Payroll Object to Local Storage.
+ - Understand the difference between Local Storage, Session Storage and older feature of storing in cookies. Here are good references */
+function createAndUpdateStorage(employeePayrollData) 
+{
+    let employeePayrollList = [];
+    employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
+    if (employeePayrollList != undefined) 
+    {
+        employeePayrollList.push(employeePayrollData);
+    }
+    else 
+    {
+        employeePayrollList = [employeePayrollData];
+    }
+    alert(employeePayrollList.toString());
+    localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList))
 }
 
