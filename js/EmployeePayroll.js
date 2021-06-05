@@ -1,9 +1,9 @@
-/* UC1:- Modify Employee Payroll Class with new Attributes and Getters and Setters
-         - New Attributes added are Department, Gender, Employee Notes, Profile Pic, etc
-         - Note – Getters and Setters are used for all properties and Constructor is made default */
+ /* UC9:- On Form Submit populate the Employee Payroll Data Object.
+             - Write JavaScript function in a separate file.
+             - Add additional fields to Employee Payroll as required.
+             - Perform the validation on the setter method. */
 class EmployeePayroll 
-{
-    
+{    
     // getter and setter method
     get id() { return this._id; }
     set id(id) {
@@ -12,6 +12,14 @@ class EmployeePayroll
 
     get name() { return this._name; }
     set name(name) {
+        let checkName = RegExp('^[A-Z]{1}[a-z]{2,}$');
+        if (checkName.test(name)) {
+            this._name = name;
+        }
+        else {
+            throw "InCorrect name";
+        }
+
         this._name = name;
     }
 
@@ -42,6 +50,11 @@ class EmployeePayroll
 
     get startDate() { return this._startDate; }
     set startDate(startDate) {
+        let now = new Date();
+        if (startDate > now) throw 'Start Date is a Future Date!';
+        var diff = Math.abs(now.getTime() - startDate.getTime());
+        if (diff / (1000 * 60 * 60 * 24) > 30) 
+          throw 'Start Date is beyond 30 Days!';
         this._startDate = startDate; 
     }
     // toString() method
