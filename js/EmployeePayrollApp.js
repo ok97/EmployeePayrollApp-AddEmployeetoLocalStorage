@@ -1,16 +1,20 @@
 window.addEventListener('DOMContentLoaded', (event) => {
     const name = document.querySelector('#name');
     const textError = document.querySelector('.text-error');
-    name.addEventListener('input', function () {
-        if (name.value.length == 0) {
+    name.addEventListener('input', function () 
+    {
+        if (name.value.length == 0) 
+        {
             textError.textContent = "";
             return;
         }
-        try {
+        try 
+        {
             (new EmployeePayroll()).name = name.value;
             textError.textContent = "";
         }
-        catch (e) {
+        catch (e) 
+        {
             textError.textContent = e;
         }
     });
@@ -26,14 +30,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 
     const date = document.querySelector('#date');
-    date.addEventListener('input', function () {
+    date.addEventListener('input', function () 
+    {
         let startDate = document.querySelector('#day').value + " " + document.querySelector('#month').value + " " +
             document.querySelector('#year').value;
-        try {
+        try 
+        {
             (new EmployeePayroll()).startDate = new Date(Date.parse(startDate));
             setTextValue('.date-error', "");
         } 
-        catch (e) {
+        catch (e) 
+        {
             setTextValue('.date-error', e);
         }
     });
@@ -41,5 +48,52 @@ window.addEventListener('DOMContentLoaded', (event) => {
 const setTextValue = (id, value) => {
     const element = document.querySelector(id);
     element.textContent = value;
+}
+
+/* UC3:- Ability to create Employee Payroll Object On Save. 
+         - Validation of Name and Date and if failed then set the UI accordingly. */
+const save = () => {
+    try {
+        let EmployeePayRoll = createEmployeePayroll();
+    }
+    catch (e) {
+        alert(e);
+    }
+}
+
+const createEmployeePayroll = () => {
+    let employeePayrollData = new EmployeePayroll();
+    try {
+        employeePayrollData.name = getInputValueById('#name');
+    }
+    catch (e) {
+        setTextValue('.text-error', e);
+        throw e;
+    }
+
+    employeePayrollData.profilePic = getSelectedValues('[name=profile]').pop();
+    employeePayrollData.gender = getSelectedValues('[name=gender]').pop();
+    employeePayrollData.department = getSelectedValues('[name=department]');
+    employeePayrollData.salary = getInputValueById('#salary');
+    employeePayrollData.note = getInputValueById('#notes');
+    let date = getInputValueById('#day') + "," + getInputValueById('#month') + "," + getInputValueById('#year');
+    employeePayrollData.startDate = new Date(date);
+    alert(employeePayrollData.toString());
+    return employeePayrollData;
+}
+
+const getSelectedValues = (propertyValue) => {
+    let allItems = document.querySelectorAll(propertyValue);
+    let sellItems = [];
+    allItems.forEach(item => {
+        if (item.checked)
+            sellItems.push(item.value);
+    });
+    return sellItems;
+}
+
+const getInputValueById = (id) => {
+    let value = document.querySelector(id).value;
+    return value;
 }
 
